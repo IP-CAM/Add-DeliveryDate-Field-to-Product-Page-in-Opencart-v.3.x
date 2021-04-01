@@ -18,7 +18,25 @@
     <!--
 	START;
 	
-	На странице товара вместо названия производителя выводится изображение
+	Шаблон Ultrastore. Прижимает кнопки Добавить в закладки и сравнения к правой части блока
+    (Это нужно чтобы при выключенных отзывах не съезжало влево)
+	-->
+    <file path="catalog/view/theme/oct_ultrastore/template/product/product.twig">
+        <operation>
+            <search>
+                <![CDATA[<div class="btn-group us-product-compare-wishlist">]]>
+            </search>
+            <add position="replace">
+                <![CDATA[<div class="ml-auto btn-group us-product-compare-wishlist">]]>
+            </add>
+        </operation>
+    </file>
+    <!-- END -->
+
+    <!--
+	START;
+	
+	Шаблон Ultrastore. На странице товара вместо названия производителя выводит изображение
 	-->
     <file path="catalog/controller/product/product.php">
         <operation>
@@ -60,15 +78,12 @@
             </add>
         </operation>
     </file>
-    <!--
-	END;
-	
-	На странице товара вместо названия производителя выводится изображение
-	-->
+    <!-- END -->
+
     <!--
 	START;
 	
-	Убирает модификацию шаблона Ultrastore, которая добавляет к тегам <img> класс 'img-fluid' в описании у страниц информации
+	Шаблон Ultrastore. Убирает модификацию шаблона Ultrastore, которая добавляет к тегам <img> класс 'img-fluid' в описании у страниц информации
 	-->
     <file path="catalog/controller/information/information.php">
         <operation>
@@ -80,11 +95,7 @@
             </add>
         </operation>
     </file>
-    <!--
-	END;
-	
-	Убирает модификацию шаблона Ultrastore, которая добавляет к тегам <img> класс 'img-fluid' в описании у страниц информации
-	-->
+    <!-- END -->
 
     <!--
 	START;
@@ -101,9 +112,6 @@
             </add>
         </operation>
     </file>
-    <!--
-	END;
-	
-	Убирает копирайт Opencart
-	-->
+    <!-- END -->
+
 </modification>

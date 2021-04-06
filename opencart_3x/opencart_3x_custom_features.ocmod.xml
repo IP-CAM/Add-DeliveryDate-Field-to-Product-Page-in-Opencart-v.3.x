@@ -75,6 +75,81 @@
     <!--
 	START;
 	
+	Шаблон Ultrastore. Выводит дату поставки
+	-->
+    <file path="catalog/controller/product/product.php">
+        <operation>
+            <search>
+                <![CDATA[$this->load->model('tool/image');]]>
+            </search>
+            <add position="before">
+                <![CDATA[
+                if ($product_info['date_delivery']) {
+                    $timestamp_date_delivery = strtotime($product_info['date_delivery']);
+                    $timestamp_current_day = time();
+    
+                    if ($timestamp_date_delivery >= $timestamp_current_day) {
+                        $data['date_delivery'] = $product_info['date_delivery'];
+                    } else {
+                        $data['date_delivery'] = 'дата неизвестна';
+                    }
+                }
+				]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/model/catalog/product.php">
+        <operation>
+            <search>
+                <![CDATA['quantity'         => $query->row['quantity'],]]>
+            </search>
+            <add position="after">
+                <![CDATA['date_delivery'    => $query->row['date_delivery'],]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/oct_ultrastore/template/product/product.twig">
+        <operation>
+            <search>
+                <![CDATA[{% if price %}]]>
+            </search>
+            <add position="before">
+                <![CDATA[
+				{% if out_of_stock %}
+                <div class="us-product-info-preorder preorder">
+                    <p>Ожидаем поставку: {{ date_delivery }}</p>
+                    <p><a href="/skidka-za-predzakaz">Скидка за предзаказ 5% по промокоду:</a> <button class="btn btn-success preorder-button" type="button" onclick="copytext(this)">PREORDER</button></p>
+                </div>
+                {% endif %}
+				]]>
+            </add>
+        </operation>
+
+        <operation>
+            <search>
+                <![CDATA[function updateProductPrice() {]]>
+            </search>
+            <add position="before">
+                <![CDATA[
+                {% if out_of_stock %}
+                function copytext(el) {
+                    var $tmp = $("<input>");
+                    $("body").append($tmp);
+                    $tmp.val($(el).text()).select();
+                    document.execCommand("copy");
+                    $tmp.remove();
+                    $(el).text('Промокод скопирован');
+                };
+                {% endif %}
+                ]]>
+            </add>
+        </operation>
+    </file>
+    <!-- END -->
+
+    <!--
+	START;
+	
 	Шаблон Ultrastore. Убирает модификацию шаблона Ultrastore, которая добавляет к тегам <img> класс 'img-fluid' в описании у страниц информации
 	-->
     <file path="catalog/controller/information/information.php">
